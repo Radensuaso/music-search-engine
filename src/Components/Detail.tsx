@@ -6,15 +6,14 @@ import Loading from "./Loading";
 interface Song {
   id: number;
   title: string;
-  link: string;
   artist: { id: number; name: string };
   album: { id: number; title: string; cover_big: string };
   rank: number;
   duration: number;
-  preview: string;
-  track_position: string;
-  release_date: string;
   explicit_lyrics: string;
+  release_date: string;
+  link: string;
+  preview: string;
 }
 
 interface Data {
@@ -84,9 +83,49 @@ const Detail = () => {
               sm={10}
               md={8}
               lg={6}
-              className="d-flex flex-column align-items-center"
+              style={{ borderRadius: "10px" }}
+              className="d-flex flex-column align-items-center border p-4 mt-4"
             >
-              <Image src={song?.album.cover_big} />
+              <Image src={song?.album.cover_big} fluid rounded />
+
+              <p className="mt-4">
+                <strong>Artist: </strong> {song?.artist.name}
+              </p>
+              <p>
+                <strong>Album: </strong> {song?.album.title}
+              </p>
+              <p>
+                <strong>Rank: </strong> {song?.rank}
+              </p>
+              <p>
+                <strong>Duration: </strong> {song?.duration}
+              </p>
+              <p>
+                <strong>Explicit Lyrics: </strong> {song?.explicit_lyrics}
+              </p>
+              <p>
+                <strong>Release Date: </strong> {song?.release_date}
+              </p>
+              <p>
+                <a
+                  className="btn btn-success"
+                  href={song?.preview}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Preview
+                </a>
+              </p>
+              <p>
+                <a
+                  className="btn btn-info"
+                  href={song?.link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Page
+                </a>
+              </p>
             </Col>
           </Row>
         </>
