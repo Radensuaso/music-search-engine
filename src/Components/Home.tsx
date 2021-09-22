@@ -1,5 +1,15 @@
-import { Container, Form, FormControl, Button, Row } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  FormControl,
+  Button,
+  Row,
+  Alert,
+  Col,
+} from "react-bootstrap";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import Loading from "./Loading";
+import SongCard from "./SongCard";
 
 interface Song {
   id: number;
@@ -12,8 +22,18 @@ interface Song {
   album: { id: number; title: string; cover_xl: string };
 }
 
+interface Data {
+  songs: Song[];
+  loading: boolean;
+  error: boolean;
+}
+
 const Home = () => {
-  const [songs, setSongs] = useState<Song[]>([]);
+  const [data, setData] = useState<Data>({
+    songs: [],
+    loading: false,
+    error: false,
+  });
   const [query, setQuery] = useState("");
   const handleQuery = (e: ChangeEvent<HTMLInputElement>) =>
     setQuery(e.target.value);
@@ -21,6 +41,7 @@ const Home = () => {
   const fetchSongs = async (e?: FormEvent) => {
     e?.preventDefault();
     try {
+      setData({ songs: [], loading: true, error: false });
       const search = query ? query : "muse";
       const url = process.env.REACT_APP_API_URL;
       const response = await fetch(url + "/search?q=" + search, {
@@ -31,11 +52,15 @@ const Home = () => {
       });
       if (response.ok) {
         const fetchedContent = await response.json();
-        setSongs(fetchedContent.data);
+        console.log(fetchedContent);
+
+        setData({ songs: fetchedContent.data, loading: false, error: false });
       } else {
+        setData({ songs: [], loading: false, error: true });
         console.log("There was an error");
       }
     } catch (error) {
+      setData({ songs: [], loading: false, error: true });
       console.log(error);
     }
   };
@@ -58,7 +83,19 @@ const Home = () => {
         />
         <Button variant="outline-success">Search</Button>
       </Form>
-      <Row className="mt-4"></Row>
+      <Row className="mt-4">
+        {data.loading ? (
+          <Loading />
+        ) : data.error ? (
+          <Alert variant="danger">Something went wrong.</Alert>
+        ) : (
+          data.songs.map((song, i) => (
+            <Col xs={12} sm={6} md={4} lg={3} className="mb-4" key={i}>
+              <SongCard song={song} />
+            </Col>
+          ))
+        )}
+      </Row>
     </Container>
   );
 };

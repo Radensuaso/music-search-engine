@@ -1,6 +1,19 @@
 import { Card, Button } from "react-bootstrap";
 
-const SongCard = () => {
+interface Props {
+  song: {
+    id: number;
+    title: string;
+    duration: number;
+    rank: number;
+    explicit_lyrics: boolean;
+    preview: string;
+    artist: { id: number; name: string };
+    album: { id: number; title: string; cover_xl: string };
+  };
+}
+
+const SongCard = ({ song }: Props) => {
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Img variant="top" src="holder.js/100px180" />
