@@ -31,14 +31,15 @@ const Home = () => {
     e?.preventDefault();
     try {
       setData({ songs: [], loading: true, error: false });
-      const search = query ? query : "muse";
-      const url = process.env.REACT_APP_API_URL;
-      const response = await fetch(url + "/search?q=" + search, {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNjA5ZmIzNTgxNzAwMTVjMjI3MGMiLCJpYXQiOjE2MjY0Mzk4MTksImV4cCI6MTYyNzY0OTQxOX0.r_G81mw3I9g934aGyIO8AZbfkWxO_W7hS9Tlz9lYZNY",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/search?q=${query ? query : "muse"}`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNjA5ZmIzNTgxNzAwMTVjMjI3MGMiLCJpYXQiOjE2MjY0Mzk4MTksImV4cCI6MTYyNzY0OTQxOX0.r_G81mw3I9g934aGyIO8AZbfkWxO_W7hS9Tlz9lYZNY",
+          },
+        }
+      );
       if (response.ok) {
         const fetchedContent = await response.json();
 
