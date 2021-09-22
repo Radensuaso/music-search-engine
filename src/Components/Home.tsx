@@ -11,19 +11,8 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Loading from "./Loading";
 import SongCard from "./SongCard";
 
-interface Song {
-  id: number;
-  title: string;
-  duration: number;
-  rank: number;
-  explicit_lyrics: boolean;
-  preview: string;
-  artist: { id: number; name: string };
-  album: { id: number; title: string; cover_xl: string };
-}
-
 interface Data {
-  songs: Song[];
+  songs: [];
   loading: boolean;
   error: boolean;
 }
@@ -52,7 +41,6 @@ const Home = () => {
       });
       if (response.ok) {
         const fetchedContent = await response.json();
-        console.log(fetchedContent);
 
         setData({ songs: fetchedContent.data, loading: false, error: false });
       } else {
@@ -67,12 +55,13 @@ const Home = () => {
 
   useEffect(() => {
     fetchSongs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Container className="mt-5">
       <h1>Music Search Engine</h1>
-      <Form className="d-flex mt-4" onSubmit={fetchSongs}>
+      <Form className="d-flex mt-4" onSubmit={(e) => fetchSongs(e)}>
         <FormControl
           type="search"
           placeholder="Search"

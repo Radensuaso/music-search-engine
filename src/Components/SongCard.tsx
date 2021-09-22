@@ -1,29 +1,45 @@
 import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 interface Props {
   song: {
     id: number;
     title: string;
-    duration: number;
-    rank: number;
-    explicit_lyrics: boolean;
-    preview: string;
     artist: { id: number; name: string };
-    album: { id: number; title: string; cover_xl: string };
+    album: { id: number; title: string; cover_medium: string };
+    rank: number;
+    duration: number;
+    preview: string;
   };
 }
 
 const SongCard = ({ song }: Props) => {
   return (
-    <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+    <Card>
+      <Card.Img variant="top" src={song.album.cover_medium} />
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+        <Card.Title>{song.title}</Card.Title>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          <strong>Artist: </strong>
+          <span>{song.artist.name}</span> <br />
+          <strong>Album: </strong>
+          <span>{song.album.title}</span> <br />
+          <strong>Rank: </strong>
+          <span>{song.rank}</span> <br />
+          <strong>Duration: </strong>
+          <span>{song.duration}</span>
         </Card.Text>
-        <Button variant="dark">Go somewhere</Button>
+        <Link to={`/Detail/${song.id}`} className="me-3 btn btn-dark">
+          Detail
+        </Link>
+        <a
+          className="btn btn-success"
+          href={song.preview}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Preview
+        </a>
       </Card.Body>
     </Card>
   );

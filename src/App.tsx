@@ -11,7 +11,7 @@ function App() {
       <Router>
         <NavBarTop />
         <Route path="/" exact component={Home} />
-        <Route path="/:songId" exact component={Detail} />
+        <Route path="/Detail/:songId" exact component={Detail} />
       </Router>
     </div>
   );
